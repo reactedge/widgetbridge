@@ -6,7 +6,6 @@ namespace ReactEdge\WidgetBridge\Model;
 use Psr\Log\LoggerInterface;
 use ReactEdge\WidgetBridge\Model\Megamenu\MenuData;
 use ReactEdge\WidgetBridge\Model\RegistryReader\AssetsReader;
-use ReactEdge\WidgetBridge\Model\RegistryReader\WidgetAssetResolver;
 
 class RegistryReader
 {
@@ -15,7 +14,6 @@ class RegistryReader
     public  function __construct(
         private MenuData        $menuData,
         private AssetsReader    $assetsReader,
-        private WidgetAssetResolver $widgetAssetResolver,
         private LoggerInterface $logger
     ) {
     }
@@ -36,7 +34,6 @@ class RegistryReader
 
                     if ($contract) {
                         $json = $this->normalizeContract($contract);
-                        $json = $this->widgetAssetResolver->resolve($json);
                         $registry[$widgetInstanceId] = $this->addDynamicWidgetData($json);
                     }
 
@@ -67,7 +64,6 @@ class RegistryReader
             }
 
             $json = $this->normalizeContract($contract);
-            $json = $this->widgetAssetResolver->resolve($json);
 
         } catch (\Exception $e) {
             $this->logger->error("Error loading contract $widgetId: " . $e->getMessage());
@@ -141,5 +137,4 @@ class RegistryReader
 
         return $this->activeInstances;
     }
-
 }

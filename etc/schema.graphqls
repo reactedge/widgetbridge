@@ -1,9 +1,18 @@
+interface AggregationOptionInterface
+{
+    swatch_data: SwatchData @doc(description: "Data required to render swatch filter item")
+}
+type SwatchData
+{
+    type: String @doc(description: "Type of swatch filter item: 1 - text, 2 - image")
+    value: String @doc(description: "Value for swatch item (text or image link)")
+}
+
+type MatchedVariantImage {
+  url: String
+}
+
 type ConfigurableProduct {
-    galleryByAttribute(
-        code: String!
-        value: String!
-    ): [MediaGalleryInterface]
-            @resolver(
-                class: "ReactEdge\\WidgetBridge\\Model\\Resolver\\Product\\GalleryByAttribute"
-            )
+  matched_variant_image: MatchedVariantImage
+    @resolver(class: "ReactEdge\\WidgetBridge\\Resolver\\Product\\MatchedVariant")
 }

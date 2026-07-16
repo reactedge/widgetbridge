@@ -14,7 +14,7 @@
 
     <preference
         for="ReactEdge\WidgetBridge\Api\ActivityInterface"
-        type="ReactEdge\WidgetBridge\Model\Activity"/>
+        type="ReactEdge\WidgetBridge\Model\OpenTelemetry\NullActivity"/>
 
     <type name="Magento\Framework\Console\CommandList">
         <arguments>

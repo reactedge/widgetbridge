@@ -1,0 +1,204 @@
+window.ReactEdgeIntent = window.ReactEdgeIntent || {
+    emit: (signal) => {
+        window.dispatchEvent(
+            new CustomEvent("reactedge:intent", { detail: signal })
+        );
+    }
+}
+
+window.addEventListener("reactedge:syncfilters", (event) => {
+    const { filters } = event.detail;
+
+    const params = new URLSearchParams(window.location.search);
+
+    if (Object.keys(filters).length > 0) {
+        Object.entries(filters).forEach(([attribute, value]) => {
+            const values = Object.keys(value)
+            values.forEach(value => {
+                params.set(attribute, value);
+            })
+        });
+        reloadUrl(params, 'reload url (filters)', 'ajax')
+    }
+});
+
+let latestScoreMap = null;
+
+window.addEventListener('reactedge:recommendations', (event) => {
+    const { recommendations } = event.detail
+
+    const latestScoreMap = new Map(
+        recommendations.map(r => [r.sku, r.match])
+    )
+
+    renderRecommendationBadges(latestScoreMap)
+})
+
+function reloadUrl(params, log, mode = 'reload') {
+    const url = `${window.location.pathname}?${params.toString()}`;
+
+    if (mode === 'reload') {
+        window.location.href = url;
+        return;
+    }
+
+    if (mode === 'ajax') {
+        window.history.pushState({}, '', url);
+        applyAjaxNavigation(url);
+    }
+}
+
+async function applyAjaxNavigation(url) {
+    const res = await fetch(url);
+    const html = await res.text();
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    const newProducts = doc.querySelector('#maincontent');
+    const currentProducts = document.querySelector('#maincontent');
+
+    if (!newProducts || !currentProducts) return;
+
+    if (window.hyva && typeof window.hyva.replaceDomElement === 'function') {
+        window.hyva.replaceDomElement('#maincontent', newProducts.innerHTML);
+    }
+
+    const newFilters = doc.querySelector('#filters-content');
+    const currentFilters = document.querySelector('#filters-content');
+
+    if (newFilters && currentFilters) {
+        window.hyva.replaceDomElement('#filters-content', newFilters.outerHTML);
+    }
+
+    window.dispatchEvent(new CustomEvent('reactedge:request-recommendations'));
+}
+
+function renderRecommendationBadges(scoreMap) {
+    const nodes = document.querySelectorAll('[data-sku]')
+
+    nodes.forEach(node => {
+        const sku = node.getAttribute('data-sku')
+        if (!sku) return
+
+        const score = scoreMap.get(sku)
+        if (!score) return
+
+        // avoid duplicates
+        if (node.querySelector('.reactedge-score-badge')) return
+
+        node.classList.add('reactedge-match')
+
+        const badge = document.createElement('div')
+        badge.className = `reactedge-score-badge ${getScoreClass(score)}`
+        badge.innerHTML = `
+          <span class="reactedge-badge-label">Match</span>
+          <span class="reactedge-badge-score">${score}%</span>`
+
+        node.appendChild(badge)
+    })
+}
+
+function getScoreClass(score) {
+    if (score > 0.8) return 'is-high'
+    if (score > 0.5) return 'is-medium'
+    return 'is-low'
+}
+
+document.addEventListener('click', (e) => {
+    const link = e.target.closest('[data-reactedge-filter]');
+    if (!link) return;
+
+    ReactEdgeIntent.emit({
+        type: 'filter_select',
+        attribute: link.dataset.attribute,
+        value: link.dataset.value
+    });
+});
+
+document.addEventListener("click", (event) => {
+
+    const button = event.target.closest('[data-addto="cart"]');
+
+    if (!button) return;
+
+    const form = document.querySelector("#product_addtocart_form");
+    if (!form) return;
+
+    const sku = form.dataset.sku;
+    if (!sku) return;
+
+    localStorage.setItem(
+        "reactedge:intent",
+        JSON.stringify({
+            type: "add_to_cart",
+            sku
+        })
+    );
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const trigger = document.getElementById('intent-trigger');
+
+    if (!trigger) {
+        console.warn('[intent] trigger not found');
+        return;
+    }
+
+    window.addEventListener('reactedge:widget-rendered', (e) => {
+        if (e.detail?.widget !== 'intentdiscovery') return;
+
+        trigger && (trigger.style.display = 'block');
+    });
+
+    trigger.addEventListener('click', () => {
+        toggleDrawer()
+
+        if (latestScoreMap) {
+            renderRecommendationBadges(latestScoreMap);
+        }
+    });
+});
+
+function toggleDrawer() {
+    const overlay = document.getElementById('intent-overlay')
+    const drawer = document.getElementById('intent-drawer');
+    const trigger = document.getElementById('intent-trigger');
+    const label = trigger?.querySelector('.label');
+
+    if (!drawer || !trigger || !label) return;
+
+    overlay.classList.toggle('open');
+    trigger.classList.toggle('open');
+    const isOpen = drawer.classList.toggle('open');
+
+    label.textContent = isOpen ? 'Close' : 'Suggest';
+}
+
+
+// document.addEventListener('click', async (e) => {
+//     console.log('click listener')
+//     const link = e.target.closest('a');
+//
+//     if (!link) return;
+//
+//     // detect layered nav links (you refine this selector)
+//     if (link.href.includes('?') && link.closest('.filter-options')) {
+//         e.preventDefault();
+//
+//         const response = await fetch(link.href);
+//         const html = await response.text();
+//
+//         const parser = new DOMParser();
+//         const doc = parser.parseFromString(html, 'text/html');
+//
+//         const newProducts = doc.querySelector('.products.wrapper');
+//         const currentProducts = document.querySelector('.products.wrapper');
+//
+//         if (newProducts && currentProducts) {
+//             currentProducts.innerHTML = newProducts.innerHTML;
+//         }
+//
+//         window.history.pushState({}, '', link.href);
+//     }
+// });

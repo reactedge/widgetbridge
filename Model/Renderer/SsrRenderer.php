@@ -5,6 +5,7 @@ namespace ReactEdge\WidgetBridge\Model\Renderer;
 
 use Magento\Framework\App\RequestInterface;
 use ReactEdge\WidgetBridge\Api\ActivityInterface;
+use ReactEdge\OpenTelemetry\Api\OperationInterface;
 use ReactEdge\WidgetBridge\Model\Config;
 use ReactEdge\WidgetBridge\Model\Renderer\SsrRenderer\ContractValidator;
 use ReactEdge\WidgetBridge\Model\Renderer\SsrRenderer\DynamicRenderer;
@@ -15,12 +16,12 @@ class SsrRenderer
 {
     public function __construct(
         private Config             $config,
+        private ActivityInterface $activity,
         private StaticRenderer $staticRenderer,
         private DynamicRenderer $dynamicRenderer,
         private ContractValidator $contractValidator,
         private RequestInterface $request,
-        private SiteViewModeReader $siteViewModeReader,
-        private ActivityInterface $activity,
+        private SiteViewModeReader $siteViewModeReader
     ) {
     }
 
@@ -34,6 +35,7 @@ class SsrRenderer
         }
 
         $contract = $this->contractValidator->validate(
+            $render,
             $widgetId
         );
 
@@ -49,14 +51,16 @@ class SsrRenderer
             $this->siteViewModeReader->getViewPort()
         )) {
             return $this->staticRenderer->render(
+                $render,
                 $contract
             );
         }
 
         try {
-            $result = $this->dynamicRenderer->render($contract, $widgetId);
+            $result = $this->dynamicRenderer->render($render, $contract, $widgetId);
 
             $this->activity->addEvent(
+                $render,
                 'SSR Dynamic Render Completed',
                 [
                     'css.length' => strlen($contract->getSsrCss()),
@@ -64,10 +68,14 @@ class SsrRenderer
                     'snapshot.saved' => $render->getId() . '.html'
                 ]
             );
+            $this->activity->endOperation(
+                $render,
+            );
 
             return $result;
         } catch (\Throwable $e) {
             $this->activity->failOperation(
+                $render,
                 [
                     'widget.id' => $widgetId,
                     'exception.class' => get_class($e),
@@ -81,7 +89,7 @@ class SsrRenderer
 
     private function logSsrRender(
         string $widgetId
-    ): ActivityInterface
+    ): OperationInterface
     {
         $requestUri = $this->request->getRequestUri();
 
@@ -95,11 +103,11 @@ class SsrRenderer
     }
 
     private function logSsrRenderFailed(
-        ActivityInterface $render,
+        OperationInterface $render,
         string $widgetId
     ): void
     {
-        $this->activity->failOperation([
+        $this->activity->failOperation($render, [
             'ssr.disabled' => true,
             'widget.id' => $widgetId,
         ]);
