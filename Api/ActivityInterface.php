@@ -2,6 +2,9 @@
 
 namespace ReactEdge\WidgetBridge\Api;
 
+use ReactEdge\OpenTelemetry\Api\OperationInterface;
+use ReactEdge\OpenTelemetry\Model\Operation;
+
 interface ActivityInterface
 {
     /**
@@ -16,14 +19,27 @@ interface ActivityInterface
     public function startOperation(
         string $name,
         array $attributes = []
-    );
+    ): OperationInterface;
+
+    /**
+     * Completes an operation successfully.
+     *
+     * @param Operation $operation Operation being completed.
+     * @param array<string,mixed> $attributes Additional operation attributes.
+     */
+    public function endOperation(
+        OperationInterface $operation,
+        array $attributes = []
+    ): void;
 
     /**
      * Marks an operation as failed.
      *
+     * @param Operation $operation Operation being failed.
      * @param array<string,mixed> $attributes Failure attributes.
      */
     public function failOperation(
+        OperationInterface $operation,
         array $attributes = []
     ): void;
 
@@ -34,14 +50,16 @@ interface ActivityInterface
      * without creating additional spans.
      */
     public function addEvent(
+        OperationInterface $operation,
         string $name,
         array $attributes = []
     ): void;
 
     public function startChildOperation(
+        OperationInterface $parent,
         string $name,
         array $attributes = []
-    );
+    ): OperationInterface;
 
     /**
      * Records a standalone telemetry event.

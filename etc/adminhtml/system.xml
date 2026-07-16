@@ -74,6 +74,25 @@
             </group>
 
             <!-- ===================== -->
+            <!-- BANNER                -->
+            <!-- ===================== -->
+            <group id="bannermulti"
+                   translate="label"
+                   sortOrder="40"
+                   showInDefault="1"
+                   showInWebsite="1"
+                   showInStore="1">
+
+                <label>Multi Banner Widget</label>
+
+                <field id="enabled" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Banner</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+            <!-- ===================== -->
             <!-- STORE FINDER          -->
             <!-- ===================== -->
             <group id="storefinder"
@@ -149,22 +168,40 @@
                 </field>
             </group>
 
+            <!-- ===================== -->
+            <!-- Trustpilot Reviews                   -->
+            <!-- ===================== -->
+            <group id="trustpilot"
+                   translate="label"
+                   sortOrder="90"
+                   showInDefault="1"
+                   showInWebsite="1"
+                   showInStore="1">
+
+                <label>Trustpilot Reviews Widget</label>
+
+                <field id="enabled" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Widget</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
 
             <!-- ===================== -->
-            <!-- PRODUCT GALLERY      -->
+            <!-- INTENT DISCOVERY      -->
             <!-- ===================== -->
-            <group id="productgallery"
+            <group id="intentdiscovery"
                    translate="label"
                    sortOrder="100"
                    showInDefault="1"
                    showInWebsite="1"
                    showInStore="1">
 
-                <label>Product Gallery Widget</label>
+                <label>Intent Discovery Widget</label>
 
                 <field id="enabled" type="select" sortOrder="10"
                        showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Enable Product Gallery</label>
+                    <label>Enable Intent Discovery</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>

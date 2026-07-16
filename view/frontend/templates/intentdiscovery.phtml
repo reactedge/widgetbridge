@@ -1,0 +1,17 @@
+<?php
+/** @var \ReactEdge\WidgetBridge\Block\Widget $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \ReactEdge\WidgetBridge\ViewModel\Widget $viewModel */
+
+$viewModel = $block->getViewModel();
+$widgetId = $block->getData('widget_id');
+
+if (!$viewModel->isEnabled($widgetId)) {
+    return;
+}
+
+?>
+
+<intentdiscovery-widget data-load="onscroll:50">
+    <?= $viewModel->getWidgetSSRHtml($widgetId); ?>
+</intentdiscovery-widget>

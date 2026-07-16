@@ -16,6 +16,16 @@
             <block class="ReactEdge\WidgetBridge\Block\Head"
                    name="reactedge.styles"
                    template="ReactEdge_WidgetBridge::head/assets.phtml"/>
+            <block class="ReactEdge\WidgetBridge\Block\Widget"
+                template="ReactEdge_WidgetBridge::signals.phtml"
+                name="reactedge.signals"
+            >
+                <arguments>
+                    <argument name="widget_id" xsi:type="string">intentdiscovery</argument>
+                    <argument name="view_model"
+                              xsi:type="object">ReactEdge\WidgetBridge\ViewModel\Widget</argument>
+                </arguments>
+            </block>
         </referenceContainer>
     </body>
 </page>

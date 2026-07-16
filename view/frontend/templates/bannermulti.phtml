@@ -1,0 +1,18 @@
+<?php
+/** @var \ReactEdge\WidgetBridge\Block\Widget $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \ReactEdge\WidgetBridge\ViewModel\Widget $viewModel */
+
+$viewModel = $block->getViewModel();
+$widgetId = $block->getData('widget_id');
+
+if (!$viewModel->isEnabled($widgetId)) {
+    return;
+}
+
+?>
+
+<bannermulti-widget data-load="onscroll:100">
+    <?= $viewModel->getWidgetSSRHtml($widgetId); ?>
+</bannermulti-widget>
+

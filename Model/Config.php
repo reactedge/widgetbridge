@@ -27,7 +27,7 @@ class Config
 
     public const WIDGET_USP = 'usp';
     public const WIDGET_BANNER = 'banner';
-    public const WIDGET_PRODUCT_GALLERY = 'productgallery';
+    public const WIDGET_BANNER_MULTI = 'bannermulti';
     public const WIDGET_GOOGLE_REVIEWS = 'googlereviews';
     public const WIDGET_TRUSTPILOT = 'trustpilot';
     public const WIDGET_STOREFINDER = 'storefinder';
@@ -37,7 +37,7 @@ class Config
     private const ALLOWED_WIDGETS = [
         self::WIDGET_USP,
         self::WIDGET_BANNER,
-        self::WIDGET_PRODUCT_GALLERY,
+        self::WIDGET_BANNER_MULTI,
         self::WIDGET_GOOGLE_REVIEWS,
         self::WIDGET_TRUSTPILOT,
         self::WIDGET_STOREFINDER,
