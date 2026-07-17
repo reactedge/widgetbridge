@@ -6,6 +6,7 @@ namespace ReactEdge\WidgetBridge\Model;
 
 use InvalidArgumentException;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
@@ -22,8 +23,6 @@ class Config
     private const XML_PATH_BASE_URL = 'web/secure/base_url';
 
     private const XML_PATH_PREFIX = 'reactedge';
-
-    private const XML_PATH_ENVIRONMENT = 'reactedge/assetdir/environment';
 
     public const WIDGET_USP = 'usp';
     public const WIDGET_BANNER = 'banner';
@@ -48,7 +47,8 @@ class Config
 
     public function __construct(
         private ScopeConfigInterface $scopeConfig,
-        private StoreManagerInterface  $storeManager
+        private StoreManagerInterface  $storeManager,
+        private EncryptorInterface $encryptor
     ) {}
 
     private function validateWidget(string $widgetId): void
@@ -134,10 +134,12 @@ class Config
 
     public function getGoogleMapsApiKey(): ?string
     {
-        return $this->scopeConfig->getValue(
+        $apiKey = $this->scopeConfig->getValue(
             self::XML_PATH_GOOGLE_MAPS_API_KEY,
             ScopeInterface::SCOPE_STORE
         );
+
+        return $this->encryptor->decrypt($apiKey);
     }
 
     public function getGooglePlaceId(): ?string
@@ -188,13 +190,6 @@ class Config
         return $this->scopeConfig->isSetFlag(
             self::XML_PATH_SSR_API_ENABLED,
             ScopeInterface::SCOPE_STORE
-        );
-    }
-
-    public function getEnvironment(): string
-    {
-        return (string)$this->scopeConfig->getValue(
-            self::XML_PATH_ENVIRONMENT
         );
     }
 }

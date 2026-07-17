@@ -30,4 +30,14 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Magento\Config\Model\Config\TypePool">
+        <arguments>
+            <argument name="sensitive" xsi:type="array">
+                <item name="reactedge_google_maps_api_key" xsi:type="string">
+                    reactedge/google_maps/api_key
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>
