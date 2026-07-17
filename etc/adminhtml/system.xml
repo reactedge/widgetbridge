@@ -15,6 +15,26 @@
             <tab>general</tab>
             <resource>ReactEdge_Integration::config</resource>
 
+            <group id="assetdir"
+                   translate="label"
+                   sortOrder="10"
+                   showInDefault="1"
+                   showInWebsite="1"
+                   showInStore="10">
+                <label>Asset Directory</label>
+
+                <field id="environment"
+                       translate="label"
+                       type="text"
+                       sortOrder="10"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                <label>Asset Environment</label>
+                <comment>Environment of published ReactEdge deployment artifacts.</comment>
+            </field>
+        </group>
+
             <!-- ===================== -->
             <!-- USP                   -->
             <!-- ===================== -->
@@ -186,91 +206,6 @@
                 </field>
             </group>
 
-            <!-- ===================== -->
-            <!-- SUBRESOURCE INTEGRITY -->
-            <!-- ===================== -->
-            <group id="sri"
-                   translate="label"
-                   sortOrder="15"
-                   showInDefault="1"
-                   showInWebsite="1"
-                   showInStore="1">
-
-                <label>Subresource Integrity</label>
-
-                <field id="enabled"
-                       translate="label comment"
-                       type="select"
-                       sortOrder="10"
-                       showInDefault="1"
-                       showInWebsite="1"
-                       showInStore="1">
-                    <label>Enable SRI</label>
-                    <comment>Add integrity metadata when loading published ReactEdge assets.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-            </group>
-
-            <!-- ===================== -->
-            <!-- GOOGLE MAPS           -->
-            <!-- ===================== -->
-            <group id="google_maps"
-                   translate="label"
-                   sortOrder="40"
-                   showInDefault="1"
-                   showInWebsite="1"
-                   showInStore="1">
-
-                <label>Google Maps</label>
-
-                <field id="api_key"
-                       translate="label comment"
-                       type="obscure"
-                       sortOrder="10"
-                       showInDefault="1"
-                       showInWebsite="1"
-                       showInStore="1">
-                    <label>API Key</label>
-                    <comment>Google Maps API key used by ReactEdge widgets such as Store Finder.</comment>
-                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-                </field>
-
-                <field id="place_id"
-                       translate="label comment"
-                       type="text"
-                       sortOrder="20"
-                       showInDefault="1"
-                       showInWebsite="1"
-                       showInStore="1">
-                    <label>Place ID</label>
-                    <comment>Google Place ID used by widgets such as Google Reviews.</comment>
-                </field>
-            </group>
-
-            <!-- ===================== -->
-            <!-- WIDGET SSR            -->
-            <!-- ===================== -->
-            <group id="widgets_ssr"
-                   translate="label"
-                   sortOrder="90"
-                   showInDefault="1"
-                   showInWebsite="1"
-                   showInStore="1">
-
-                <label>Widget Server-Side Rendering</label>
-
-                <field id="enabled"
-                       translate="label comment"
-                       type="select"
-                       sortOrder="10"
-                       showInDefault="1"
-                       showInWebsite="1"
-                       showInStore="1">
-                    <label>Enable Widget SSR</label>
-                    <comment>Use the ReactEdge SSR service when rendering supported widgets.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-            </group>
         </section>
 
     </system>
