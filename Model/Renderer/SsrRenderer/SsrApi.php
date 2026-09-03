@@ -5,7 +5,7 @@ namespace ReactEdge\WidgetBridge\Model\Renderer\SsrRenderer;
 
 use Magento\Framework\HTTP\Client\Curl;
 use ReactEdge\WidgetBridge\Api\ActivityInterface;
-use ReactEdge\OpenTelemetry\Api\OperationInterface;
+use ReactEdge\WidgetBridge\Api\OperationInterface;
 use ReactEdge\WidgetBridge\Model\Config;
 use ReactEdge\WidgetBridge\Model\Config\Runtime as RuntimeConfig;
 

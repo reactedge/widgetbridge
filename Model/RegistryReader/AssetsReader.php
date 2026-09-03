@@ -12,8 +12,6 @@ use ReactEdge\WidgetBridge\Model\Config;
 
 class AssetsReader
 {
-    private const ASSET_DIRECTORY = '/var/www/reactedge';
-
     public function __construct(
         private StoreManagerInterface $storeManager,
         private SerializerInterface   $serializer,
@@ -39,7 +37,7 @@ class AssetsReader
 
         $path = sprintf(
             '%s/%s',
-            self::ASSET_DIRECTORY,
+            $this->getReactEdgeRoot(),
             $relativePath
         );
 
@@ -63,7 +61,7 @@ class AssetsReader
     public function getContract(
         string $widget
     ): array {
-        $relativePath = sprintf('contracts/%s.json', $widget);
+        $relativePath = sprintf('manifests/%s.json', $widget);
 
         $cached =
             $this->assetsCacheHandler->loadCache(
@@ -79,9 +77,8 @@ class AssetsReader
             ->getCode();
 
         $path = sprintf(
-            '%s/%s/%s/%s',
-            self::ASSET_DIRECTORY,
-            $this->config->getEnvironment(),
+            '%s/%s/%s',
+            $this->getReactEdgeRoot(),
             $storeCode,
             $relativePath
         );
@@ -131,9 +128,43 @@ class AssetsReader
     {
         $path = sprintf(
             '%s/%s',
-            self::ASSET_DIRECTORY,
+            $this->getReactEdgeRoot(),
             'debug'
         );
         return $path;
+    }
+
+    private function getReactEdgeRoot(): string
+    {
+        return dirname(BP) . '/reactedge';
+    }
+
+    public function readPublishedAsset(string $fileName)
+    {
+        $url = $this->storeManager
+            ->getStore()
+            ->getBaseUrl(
+                \Magento\Framework\UrlInterface::URL_TYPE_WEB
+            );
+
+        $url .= 'reactedge/' . $fileName;
+
+        return $url;
+    }
+
+    public function readFileAssetContent(string $widgetId, string $fileName)
+    {
+        $fullPath = $this->getReactEdgeRoot()
+            . '/release/source/'
+            . $widgetId . '/'
+            . $fileName;
+
+        if (!$this->fileDriver->isExists($fullPath)) {
+            throw new LocalizedException(
+                __('File path not found: %1', $fullPath)
+            );
+        }
+
+        return $this->fileDriver->fileGetContents($fullPath);
     }
 }

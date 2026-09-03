@@ -1,3 +1,15 @@
+type ConfigurableProduct {
+    matched_variant_image: MatchedVariantImage
+        @resolver(class: "ReactEdge\\WidgetBridge\\Model\\Resolver\\Product\\MatchedVariant")
+    galleryByAttribute(
+        code: String!
+        value: String!
+    ): [MediaGalleryInterface]
+            @resolver(
+                class: "ReactEdge\\WidgetBridge\\Model\\Resolver\\Product\\GalleryByAttribute"
+            )
+}
+
 interface AggregationOptionInterface
 {
     swatch_data: SwatchData @doc(description: "Data required to render swatch filter item")
@@ -10,9 +22,4 @@ type SwatchData
 
 type MatchedVariantImage {
   url: String
-}
-
-type ConfigurableProduct {
-  matched_variant_image: MatchedVariantImage
-    @resolver(class: "ReactEdge\\WidgetBridge\\Resolver\\Product\\MatchedVariant")
 }

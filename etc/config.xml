@@ -3,9 +3,11 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <reactedge>
-            <assetdir>
-                <location>/var/www/reactedge</location>
-            </assetdir>
+            <observability>
+                <enabled>0</enabled>
+                <service_name>reactedge-runtime</service_name>
+                <collector_endpoint><![CDATA[http://widget-runtime-otel-collector-1:4318/v1/traces]]></collector_endpoint>
+            </observability>
         </reactedge>
     </default>
 </config>

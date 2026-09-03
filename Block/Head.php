@@ -25,16 +25,14 @@ class Head extends Template
 
     public function getCssAssets()
     {
-        foreach ($this->registryReader->getMainActiveWidgets() as $widgetId) {
-            $contract = $this->registryReader->getWidgetContract($widgetId);
-
-            $css = $contract['css'] ?? null;
-
-            if ($css) {
-                $assets[] = $css;
-            }
-        }
-
-        return array_unique($assets);
+        return array_unique(
+            array_filter(
+                array_map(
+                    fn (string $widgetId) =>
+                        $this->registryReader->getWidgetContract($widgetId)['css'] ?? null,
+                    $this->registryReader->getMainActiveWidgets()
+                )
+            )
+        );
     }
 }

@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace ReactEdge\WidgetBridge\Model\Renderer\SsrRenderer;
 
 use ReactEdge\WidgetBridge\Api\ActivityInterface;
-use ReactEdge\OpenTelemetry\Api\OperationInterface;
+use ReactEdge\WidgetBridge\Api\OperationInterface;
 use ReactEdge\WidgetBridge\Model\RegistryReader;
 
 class ContractValidator
 {
 
     public function __construct(
-        private RegistryReader     $registryReader,
+        private RegistryReader $registryReader,
         private ActivityInterface $activity,
         private ContractFactory $contractFactory
     ) {

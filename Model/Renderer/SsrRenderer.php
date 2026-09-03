@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace ReactEdge\WidgetBridge\Model\Renderer;
 
 use Magento\Framework\App\RequestInterface;
+use ReactEdge\WidgetBridge\Api\OperationInterface;
 use ReactEdge\WidgetBridge\Api\ActivityInterface;
-use ReactEdge\OpenTelemetry\Api\OperationInterface;
 use ReactEdge\WidgetBridge\Model\Config;
 use ReactEdge\WidgetBridge\Model\Renderer\SsrRenderer\ContractValidator;
 use ReactEdge\WidgetBridge\Model\Renderer\SsrRenderer\DynamicRenderer;
@@ -16,12 +16,12 @@ class SsrRenderer
 {
     public function __construct(
         private Config             $config,
-        private ActivityInterface $activity,
         private StaticRenderer $staticRenderer,
         private DynamicRenderer $dynamicRenderer,
         private ContractValidator $contractValidator,
         private RequestInterface $request,
-        private SiteViewModeReader $siteViewModeReader
+        private SiteViewModeReader $siteViewModeReader,
+        private ActivityInterface $activity,
     ) {
     }
 
