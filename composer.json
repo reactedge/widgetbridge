@@ -1,7 +1,7 @@
 {
-    "name": "reactedge/widgetbridgelight",
+    "name": "reactedge/widgetbridge",
     "description": "Bridge between Magento/Mage-OS and ReactEdge widgets.",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "authors": [
         {
             "name": "ReactEdge",

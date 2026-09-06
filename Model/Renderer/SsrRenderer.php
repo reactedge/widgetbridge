@@ -94,7 +94,7 @@ class SsrRenderer
         $requestUri = $this->request->getRequestUri();
 
         return $this->activity->startOperation(
-            'ssr.render',
+            "ssr.render-$widgetId",
             [
                 'widget.id' => $widgetId,
                 'request.uri' => $requestUri,
