@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace ReactEdge\WidgetBridge\Model\OpenTelemetry;
 
-use ReactEdge\OpenTelemetry\Api\OperationInterface;
-use ReactEdge\OpenTelemetry\Model\NullOperation;
+use ReactEdge\WidgetBridge\Api\OperationInterface;
 use ReactEdge\WidgetBridge\Api\ActivityInterface;
+use ReactEdge\WidgetBridge\Model\Observability\NullOperation;
 
 class NullActivity implements ActivityInterface
 {
