@@ -8,6 +8,10 @@
                 <service_name>reactedge-runtime</service_name>
                 <collector_endpoint><![CDATA[http://widget-runtime-otel-collector-1:4318/v1/traces]]></collector_endpoint>
             </observability>
+            <widgets_ssr>
+                <enabled>1</enabled>
+                <base_url>https://ssr-origin.reactedge.net</base_url>
+            </widgets_ssr>
         </reactedge>
     </default>
 </config>
