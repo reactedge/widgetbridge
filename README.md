@@ -49,6 +49,20 @@ bin/magento setup:upgrade
 bin/magento cache:flush
 ```
 
+### Enable SSR
+
+```bash
+bin/magento config:set reactedge/widgets_ssr/enabled 1
+bin/magento config:set reactedge/widgets_ssr/base_url https://ssr-origin.reactedge.net
+```
+
+### Enable Observability
+```bash
+bin/magento config:set reactedge/observability/enabled 1
+bin/magento config:set reactedge/observability/service_name reactedge-mageos-dev
+bin/magento config:set reactedge/observability/collector_endpoint https://otel.reactedge.net/v1/traces
+```
+
 ## Philosophy
 
 WidgetBridge is based on a few core principles:

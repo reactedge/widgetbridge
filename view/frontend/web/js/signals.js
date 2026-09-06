@@ -1,3 +1,34 @@
+window.ReactEdgeSignals = window.ReactEdgeSignals || {
+    emit: (signal) => {
+        window.dispatchEvent(
+            new CustomEvent("reactedge:signal", { detail: signal })
+        );
+    }
+};
+
+document.addEventListener("change", (event) => {
+    const input = event.target;
+
+    const attribute = input.closest('[data-attribute-id]');
+
+    if (!attribute) {
+        return;
+    }
+
+    const attributeId = attribute.dataset.attributeId;
+
+    if (!attributeId) {
+        return;
+    }
+
+    window.ReactEdgeSignals?.emit({
+        type: "product_attribute_changed",
+        code: "color",
+        value: input.value
+    });
+});
+
+
 window.ReactEdgeIntent = window.ReactEdgeIntent || {
     emit: (signal) => {
         window.dispatchEvent(
@@ -27,7 +58,7 @@ let latestScoreMap = null;
 window.addEventListener('reactedge:recommendations', (event) => {
     const { recommendations } = event.detail
 
-    const latestScoreMap = new Map(
+    latestScoreMap = new Map(
         recommendations.map(r => [r.sku, r.match])
     )
 
@@ -156,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (latestScoreMap) {
             renderRecommendationBadges(latestScoreMap);
+            latestScoreMap = null;
         }
     });
 });

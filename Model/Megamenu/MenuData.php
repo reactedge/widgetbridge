@@ -7,15 +7,21 @@ class MenuData
 {
     public const MENU_ID = 'megamenu';
 
+    private $menuData = null;
+
     public function __construct(
         private TreeData $treeData
     ) {}
 
     public function getMegamenuData(): array
     {
-        // expensive computation
-        $data = $this->treeData->buildTree();
+        if (is_null($this->menuData)) {
+            // expensive computation
+            $data = $this->treeData->buildTree();
 
-        return $data;
+            $this->menuData = $data ?? [];
+        }
+
+        return $this->menuData;
     }
 }

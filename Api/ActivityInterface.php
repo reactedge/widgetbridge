@@ -2,8 +2,7 @@
 
 namespace ReactEdge\WidgetBridge\Api;
 
-use ReactEdge\OpenTelemetry\Api\OperationInterface;
-use ReactEdge\OpenTelemetry\Model\Operation;
+use ReactEdge\WidgetBridge\Model\Observability\Operation;
 
 interface ActivityInterface
 {

@@ -1,26 +1,23 @@
 {
-    "name": "reactedge/widgetbridge",
+    "name": "reactedge/widgetbridgelight",
     "description": "Bridge between Magento/Mage-OS and ReactEdge widgets.",
-    "type": "magento2-module",
-    "license": "MIT",
-    "keywords": [
-        "magento2",
-        "mage-os",
-        "react",
-        "widgets",
-        "headless",
-        "ssr",
-        "performance"
+    "version": "0.0.4",
+    "authors": [
+        {
+            "name": "ReactEdge",
+            "homepage": "https://reactEdge.net/"
+        }
     ],
-    "homepage": "https://github.com/reactedge/widgetbridge",
+    "license": "MIT",
     "require": {
         "php": "^8.1",
-        "magento/framework": "*"
+        "magento/framework": "*",
+        "open-telemetry/api": "^1.2",
+        "open-telemetry/sdk": "^1.2",
+        "open-telemetry/exporter-otlp": "^1.2"
     },
     "autoload": {
-        "files": [
-            "registration.php"
-        ],
+        "files": ["registration.php"],
         "psr-4": {
             "ReactEdge\\WidgetBridge\\": ""
         }

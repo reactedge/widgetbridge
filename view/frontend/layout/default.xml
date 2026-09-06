@@ -2,8 +2,8 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <link src="https://widgets-cdn.reactedge.net" src_type="url" rel="preconnect" crossorigin="anonymous"/>
         <script src="ReactEdge_WidgetBridge::js/reactedge-loader.js"/>
+        <script src="ReactEdge_WidgetBridge::js/signals.js"/>
     </head>
     <body>
         <referenceContainer name="head.additional">
@@ -16,16 +16,6 @@
             <block class="ReactEdge\WidgetBridge\Block\Head"
                    name="reactedge.styles"
                    template="ReactEdge_WidgetBridge::head/assets.phtml"/>
-            <block class="ReactEdge\WidgetBridge\Block\Widget"
-                template="ReactEdge_WidgetBridge::signals.phtml"
-                name="reactedge.signals"
-            >
-                <arguments>
-                    <argument name="widget_id" xsi:type="string">intentdiscovery</argument>
-                    <argument name="view_model"
-                              xsi:type="object">ReactEdge\WidgetBridge\ViewModel\Widget</argument>
-                </arguments>
-            </block>
         </referenceContainer>
     </body>
 </page>

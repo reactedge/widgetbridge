@@ -6,6 +6,7 @@ namespace ReactEdge\WidgetBridge\Model;
 
 use InvalidArgumentException;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
@@ -14,20 +15,23 @@ class Config
     private const XML_PATH_SRI_ENABLED = 'reactedge/sri/enabled';
     private const XML_PATH_GOOGLE_MAPS_API_KEY = 'reactedge/google_maps/api_key';
     private const XML_PATH_GOOGLE_MAPS_PLACE_ID = 'reactedge/google_maps/place_id';
-    private const XML_PATH_INTENT_API_BASE_URL = 'reactedge/intent_api/base_url';
+    private const XML_PATH_INTENT_API_BASE_URL = 'reactedge/intentdiscovery/intent_api_url';
 
     private const XML_PATH_SSR_API_BASE_URL = 'reactedge/widgets_ssr/base_url';
 
     private const XML_PATH_SSR_API_ENABLED = 'reactedge/widgets_ssr/enabled';
+
+    private const XML_PATH_OBSERVABILITY_ENABLED = 'reactedge/observability/enabled';
+    private const XML_PATH_OBSERVABILITY_SERVICE_NAME = 'reactedge/observability/service_name';
+
+    private const XML_PATH_OBSERVABILITY_COLLECTOR_ENDPOINT = 'reactedge/observability/collector_endpoint';
     private const XML_PATH_BASE_URL = 'web/secure/base_url';
 
     private const XML_PATH_PREFIX = 'reactedge';
 
-    private const XML_PATH_ENVIRONMENT = 'reactedge/assetdir/environment';
-
     public const WIDGET_USP = 'usp';
     public const WIDGET_BANNER = 'banner';
-    public const WIDGET_BANNER_MULTI = 'bannermulti';
+    public const WIDGET_PRODUCT_GALLERY = 'productgallery';
     public const WIDGET_GOOGLE_REVIEWS = 'googlereviews';
     public const WIDGET_TRUSTPILOT = 'trustpilot';
     public const WIDGET_STOREFINDER = 'storefinder';
@@ -37,7 +41,7 @@ class Config
     private const ALLOWED_WIDGETS = [
         self::WIDGET_USP,
         self::WIDGET_BANNER,
-        self::WIDGET_BANNER_MULTI,
+        self::WIDGET_PRODUCT_GALLERY,
         self::WIDGET_GOOGLE_REVIEWS,
         self::WIDGET_TRUSTPILOT,
         self::WIDGET_STOREFINDER,
@@ -48,7 +52,8 @@ class Config
 
     public function __construct(
         private ScopeConfigInterface $scopeConfig,
-        private StoreManagerInterface  $storeManager
+        private StoreManagerInterface  $storeManager,
+        private EncryptorInterface $encryptor
     ) {}
 
     private function validateWidget(string $widgetId): void
@@ -134,10 +139,12 @@ class Config
 
     public function getGoogleMapsApiKey(): ?string
     {
-        return $this->scopeConfig->getValue(
+        $apiKey = $this->scopeConfig->getValue(
             self::XML_PATH_GOOGLE_MAPS_API_KEY,
             ScopeInterface::SCOPE_STORE
         );
+
+        return $this->encryptor->decrypt($apiKey);
     }
 
     public function getGooglePlaceId(): ?string
@@ -191,10 +198,27 @@ class Config
         );
     }
 
-    public function getEnvironment(): string
+    public function isObservabilityEnabled(): bool
     {
-        return (string)$this->scopeConfig->getValue(
-            self::XML_PATH_ENVIRONMENT
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_OBSERVABILITY_ENABLED,
+            ScopeInterface::SCOPE_STORE
         );
+    }
+
+    public function getObservabilityServiceName(): string
+    {
+        return trim((string)$this->scopeConfig->getValue(
+            self::XML_PATH_OBSERVABILITY_SERVICE_NAME,
+            ScopeInterface::SCOPE_STORE
+        ));
+    }
+
+    public function getObservabilityCollectorEndpoint(): string
+    {
+        return trim((string)$this->scopeConfig->getValue(
+            self::XML_PATH_OBSERVABILITY_COLLECTOR_ENDPOINT,
+            ScopeInterface::SCOPE_STORE
+        ));
     }
 }

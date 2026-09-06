@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace ReactEdge\WidgetBridge\Model\Config;
 
-use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
 use ReactEdge\WidgetBridge\Model\Config;
@@ -13,7 +12,9 @@ class Runtime
     public function __construct(
         private Config                $config,
         private StoreManagerInterface $storeManager,
-        private CategoryReader        $categoryReader
+        private CategoryReader        $categoryReader,
+        private ProductReader         $productReader
+
     ) {}
 
     public function getRuntimeConfig(): array
@@ -29,9 +30,19 @@ class Runtime
                     "baseUrl" => $this->config->getIntentApiBaseUrl()
                 ]
             ],
-            'storeCode' => $this->storeManager->getStore()->getCode(),
-            'category' => $this->categoryReader->getCurrentCategoryUrlKey()
+            "context" => [
+                "storeCode" => $this->storeManager->getStore()->getCode(),
+                "category" => $this->categoryReader->getCurrentCategoryUrlKey(),
+                "sku" => $this->productReader->getCurrentProductSku()
+            ]
         ];
+
+        if ($this->config->isObservabilityEnabled()) {
+            $data['observability'] = [
+                'collectorEndpoint' => $this->config->getObservabilityCollectorEndpoint(),
+                'serviceName' => $this->config->getObservabilityServiceName(),
+            ];
+        }
 
         return $data;
     }

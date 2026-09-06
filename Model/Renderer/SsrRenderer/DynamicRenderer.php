@@ -5,7 +5,8 @@ namespace ReactEdge\WidgetBridge\Model\Renderer\SsrRenderer;
 
 use Laminas\ReCaptcha\Exception;
 use ReactEdge\WidgetBridge\Api\ActivityInterface;
-use ReactEdge\OpenTelemetry\Api\OperationInterface;
+use ReactEdge\WidgetBridge\Api\OperationInterface;
+use ReactEdge\WidgetBridge\Model\Config\Runtime as RuntimeConfig;
 
 class DynamicRenderer
 {
@@ -14,7 +15,8 @@ class DynamicRenderer
         private SsrApi             $ssrApi,
         private ActivityInterface  $activity,
         private SsrSnapshotStorage $snapshotStorage,
-        private SsrCacheHandler $ssrCacheHandler
+        private SsrCacheHandler $ssrCacheHandler,
+        private RuntimeConfig      $runtimeConfig,
     ) {
     }
 
@@ -28,6 +30,7 @@ class DynamicRenderer
             'widget' => $contract->getWidget(),
             'contract' => $contract->getContract(),
             'contractFile' => $contract->getContractFile(),
+            'runtimeConfig' => $this->runtimeConfig->getRuntimeConfig()
         ];
 
         $cachedHtml = $this->ssrCacheHandler->loadCache($payload);
@@ -71,7 +74,7 @@ class DynamicRenderer
             if ($result) {
                 $html = $contract->getSsrCss() . $ssr;
             } else {
-                throw new Exception('Could not generate a valid SSR content.');
+                throw new \Exception('Could not generate a valid SSR content.');
             }
 
             $this->snapshotStorage->save(
