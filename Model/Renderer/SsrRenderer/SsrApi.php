@@ -42,7 +42,10 @@ class SsrApi
         $payload = array_merge(
             $payload,
             [
-                'runtimeConfig' => $runtimeConfig ?? []
+                'runtimeConfig' => $runtimeConfig ?? [],
+                'options' => [
+                    'observability' => $this->config->isObservabilityEnabled(),
+                ],
             ]
         );
 

@@ -9,13 +9,22 @@ use OpenTelemetry\SDK\Common\Attribute\Attributes;
 use OpenTelemetry\SDK\Resource\ResourceInfo;
 use OpenTelemetry\SDK\Trace\SpanProcessor\SimpleSpanProcessor;
 use OpenTelemetry\SDK\Trace\TracerProvider;
+use ReactEdge\WidgetBridge\Model\Config;
 
 class TracerProviderFactory
 {
+    public function __construct(
+        private Config $config
+    ) {}
+
     public function create(
         string $serviceName,
         string $collectorEndPoint
-    ): TracerProvider {
+    ): ?TracerProvider {
+        if (!$this->config->isObservabilityEnabled()) {
+            return null;
+        }
+
         $resource = ResourceInfo::create(
             Attributes::create([
                 'service.name' => $serviceName

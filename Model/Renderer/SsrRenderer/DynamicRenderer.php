@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace ReactEdge\WidgetBridge\Model\Renderer\SsrRenderer;
 
-use Laminas\ReCaptcha\Exception;
 use ReactEdge\WidgetBridge\Api\ActivityInterface;
 use ReactEdge\WidgetBridge\Api\OperationInterface;
 use ReactEdge\WidgetBridge\Model\Config\Runtime as RuntimeConfig;
