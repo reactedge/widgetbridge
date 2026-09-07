@@ -15,9 +15,8 @@ use ReactEdge\WidgetBridge\Model\Observability\TracerProviderFactory;
 
 class Activity implements ActivityInterface
 {
-    private TracerInterface $tracer;
-
-    private TracerProvider $provider;
+    private ?TracerInterface $tracer = null;
+    private ?TracerProvider $provider = null;
 
     public function __construct(
         private Config        $config,
@@ -28,9 +27,11 @@ class Activity implements ActivityInterface
             $this->config->getObservabilityCollectorEndpoint()
         );
 
-        $this->tracer = $this->provider->getTracer(
-            $this->config->getObservabilityServiceName()
-        );
+        if ($this->provider !== null) {
+            $this->tracer = $this->provider->getTracer(
+                $this->config->getObservabilityServiceName()
+            );
+        }
     }
 
     /**
@@ -41,7 +42,7 @@ class Activity implements ActivityInterface
         array $attributes = []
     ): OperationInterface
     {
-        if ($this->isCli()) {
+        if ($this->isCli() || !$this->tracer) {
             return new NullOperation();
         }
 
@@ -152,7 +153,7 @@ class Activity implements ActivityInterface
         array $attributes = []
     ): OperationInterface
     {
-        if ($this->isCli()) {
+        if ($this->isCli() || !$this->tracer) {
             return new NullOperation();
         }
 
@@ -187,6 +188,10 @@ class Activity implements ActivityInterface
         array $payload = [],
     ): void
     {
+        if ($this->isCli() || $this->provider === null) {
+            return;
+        }
+
         $this->tracer = $this->provider->getTracer(
             $serviceName
         );
