@@ -7,6 +7,7 @@ use Magento\Framework\App\RequestInterface;
 use ReactEdge\WidgetBridge\Api\OperationInterface;
 use ReactEdge\WidgetBridge\Api\ActivityInterface;
 use ReactEdge\WidgetBridge\Model\Config;
+use ReactEdge\WidgetBridge\Model\Observability\Context;
 use ReactEdge\WidgetBridge\Model\Renderer\SsrRenderer\ContractValidator;
 use ReactEdge\WidgetBridge\Model\Renderer\SsrRenderer\DynamicRenderer;
 use ReactEdge\WidgetBridge\Model\Renderer\SsrRenderer\SiteViewModeReader;
@@ -22,6 +23,7 @@ class SsrRenderer
         private RequestInterface $request,
         private SiteViewModeReader $siteViewModeReader,
         private ActivityInterface $activity,
+        private readonly Context $context
     ) {
     }
 
@@ -92,9 +94,10 @@ class SsrRenderer
     ): OperationInterface
     {
         $requestUri = $this->request->getRequestUri();
+        $entity = $this->context->getEntityId();
 
         return $this->activity->startOperation(
-            "ssr.render-$widgetId",
+            "ssr.render-$widgetId-$entity",
             [
                 'widget.id' => $widgetId,
                 'request.uri' => $requestUri,

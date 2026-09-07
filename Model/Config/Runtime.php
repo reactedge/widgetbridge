@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace ReactEdge\WidgetBridge\Model\Config;
 
 use Magento\Store\Model\StoreManagerInterface;
-
 use ReactEdge\WidgetBridge\Model\Config;
 
 class Runtime
@@ -14,7 +13,6 @@ class Runtime
         private StoreManagerInterface $storeManager,
         private CategoryReader        $categoryReader,
         private ProductReader         $productReader
-
     ) {}
 
     public function getRuntimeConfig(): array
