@@ -8,7 +8,6 @@ use Magento\Framework\Filesystem\Driver\File as FileDriver;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Serialize\SerializerInterface;
 use Psr\Log\LoggerInterface;
-use ReactEdge\WidgetBridge\Model\Config;
 
 class AssetsReader
 {
@@ -17,7 +16,6 @@ class AssetsReader
         private SerializerInterface   $serializer,
         private FileDriver            $fileDriver,
         private AssetsCacheHandler $assetsCacheHandler,
-        private readonly Config $config,
         private LoggerInterface $logger
     ) {
     }

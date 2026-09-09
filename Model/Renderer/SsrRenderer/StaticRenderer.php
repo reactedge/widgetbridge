@@ -10,7 +10,8 @@ class StaticRenderer
 {
     public function __construct(
         private ActivityInterface $activity,
-        private SiteViewModeReader $siteViewModeReader
+        private SiteViewModeReader $siteViewModeReader,
+        private SsrAssetReader $ssrAssetReader
     ) {
     }
 
@@ -19,8 +20,9 @@ class StaticRenderer
         Contract $contract
     ): string {
         $css = $contract->getSsrCss();
-        $html = $css . $contract->getSsrHtml(
-            $this->siteViewModeReader->getViewPort()
+        $html = $css . $this->ssrAssetReader->getSsr(
+                $contract->getWidget(),
+                $this->siteViewModeReader->getViewPort()
             );
 
         $this->activity->addEvent(

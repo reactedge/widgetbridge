@@ -38,7 +38,7 @@ final class Contract
 
     public function hasStaticSsr(string $variant = 'desktop'): bool
     {
-        return $this->getSsrHtml($variant) !== '';
+        return $this->getRenderingStrategy() === 'static';
     }
 
     public function getCss(): string
