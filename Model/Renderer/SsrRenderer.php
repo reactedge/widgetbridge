@@ -42,10 +42,22 @@ class SsrRenderer
         );
 
         if ($contract === null) {
+            $this->activity->endOperation(
+                $render,
+                [
+                    'contract' => null
+                ]
+            );
             return '';
         }
 
         if ($contract->getRenderingStrategy() === 'disabled') {
+            $this->activity->endOperation(
+                $render,
+                [
+                    'strategy' => 'disabled'
+                ]
+            );
             return '';
         }
 
