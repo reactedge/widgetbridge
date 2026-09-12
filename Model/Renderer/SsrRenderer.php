@@ -66,7 +66,8 @@ class SsrRenderer
         )) {
             return $this->staticRenderer->render(
                 $render,
-                $contract
+                $contract,
+                ($widgetId=== 'productgallery')? sprintf('output-%s.html', $this->context->getEntityId()): 'output.html'
             );
         }
 

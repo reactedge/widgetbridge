@@ -20,11 +20,12 @@ class SsrAssetReader
     ) {
     }
 
-    public function getSsr(string $widget, string $variant): string
+    public function getSsr(string $widget, string $output, string $variant): string
     {
         $relativePath = sprintf(
-            'ssr/%s/output.html',
-            $widget
+            'ssr/%s/%s',
+            $widget,
+            $output
         );
 
         $cached = $this->loadCache($relativePath);
