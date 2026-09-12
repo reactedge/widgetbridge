@@ -3,19 +3,27 @@ declare(strict_types=1);
 
 namespace ReactEdge\WidgetBridge\Model\RegistryReader;
 
+use Magento\Framework\Filesystem\Driver\File as FileDriver;
+
 class WidgetSourceFileWriter
 {
+    public function __construct(
+        private readonly FileDriver $file
+    ) {
+    }
 
     public function publish(string $path, string $content)
     {
         $directory = BP . '/pub/reactedge/';
+        $target = $directory . ltrim($path, '/');
+        $targetDirectory = dirname($target);
 
-        if (!is_dir($directory)) {
-            mkdir($directory, 0775, true);
+        if (!$this->file->isDirectory($targetDirectory)) {
+            $this->file->createDirectory($targetDirectory, 0775);
         }
 
-        file_put_contents(
-            $directory . $path,
+        $this->file->filePutContents(
+            $target,
             $content
         );
     }

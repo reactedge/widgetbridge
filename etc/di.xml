@@ -27,6 +27,14 @@
                       xsi:type="object">
                     ReactEdge\WidgetBridge\Command\ExportWidgetContract
                 </item>
+                <item name="reactedge_product_image_gallery_generate"
+                      xsi:type="object">
+                    ReactEdge\WidgetBridge\Command\GenerateProductWithImageData
+                </item>
+                <item name="reactedge_megamenu_generate"
+                      xsi:type="object">
+                    ReactEdge\WidgetBridge\Command\GenerateMegamenuData
+                </item>
             </argument>
         </arguments>
     </type>

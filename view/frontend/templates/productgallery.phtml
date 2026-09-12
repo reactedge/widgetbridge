@@ -11,6 +11,7 @@ if (!$viewModel->isEnabled($widgetId)) {
 }
 ?>
 
-<productgallery-widget data-load="eager">
+<div data-reactedge-instance>
     <?= $viewModel->getWidgetSSRHtml($widgetId); ?>
-</productgallery-widget>
+    <productgallery-widget data-load="eager" style="opacity: 0"></productgallery-widget>
+</div>

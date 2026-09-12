@@ -17,12 +17,14 @@ class StaticRenderer
 
     public function render(
         OperationInterface $operation,
-        Contract $contract
+        Contract $contract,
+        string $output
     ): string {
         $css = $contract->getSsrCss();
         $html = $css . $this->ssrAssetReader->getSsr(
                 $contract->getWidget(),
-                $this->siteViewModeReader->getViewPort()
+                $output,
+                $this->siteViewModeReader->getViewPort(),
             );
 
         $this->activity->addEvent(
