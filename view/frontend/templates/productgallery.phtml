@@ -11,7 +11,9 @@ if (!$viewModel->isEnabled($widgetId)) {
 }
 ?>
 
-<div data-reactedge-instance>
+<productgallery-widget data-load="eager">
     <?= $viewModel->getWidgetSSRHtml($widgetId); ?>
-    <productgallery-widget data-load="eager" style="opacity: 0"></productgallery-widget>
-</div>
+    <script type="application/json" data-reactedge-bootstrap>
+      <?= $viewModel->getWidgetSSRData($widgetId); ?>
+    </script>
+</productgallery-widget>

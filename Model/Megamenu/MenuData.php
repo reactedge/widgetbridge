@@ -19,7 +19,7 @@ class MenuData
             // expensive computation
             $data = $this->treeData->buildTree();
 
-            $this->menuData = $data ?? [];
+            $this->menuData = $data['items'] ?? [];
         }
 
         return $this->menuData;

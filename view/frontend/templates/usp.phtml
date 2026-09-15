@@ -15,4 +15,6 @@ if (!$viewModel->isEnabled($widgetId)) {
     <?= $viewModel->getWidgetSSRHtml($widgetId); ?>
 </usp-widget>
 
-
+<script type="application/json" data-reactedge-bootstrap>
+    <?= $viewModel->getWidgetSSRData($widgetId); ?>
+</script>

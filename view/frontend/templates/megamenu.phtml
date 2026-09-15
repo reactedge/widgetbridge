@@ -13,8 +13,10 @@ if (!$viewModel->isEnabled($widgetId)) {
 ?>
 
 <nav class="navigation" data-action="navigation">
-    <div data-reactedge-instance>
+    <megamenu-widget data-load="eager">
         <?= $viewModel->getWidgetSSRHtml($widgetId); ?>
-        <megamenu-widget data-load="eager" hidden></megamenu-widget>
-    </div>
+        <script type="application/json" data-reactedge-bootstrap>
+          <?= $viewModel->getWidgetSSRData($widgetId); ?>
+        </script>
+    </megamenu-widget>
 </nav>

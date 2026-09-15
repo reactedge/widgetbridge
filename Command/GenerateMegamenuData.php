@@ -38,7 +38,7 @@ class GenerateMegamenuData extends Command
     ): int {
         $output->writeln('Generating Mega Menu data...');
 
-        $data = ['data' => $this->menuData->getMegamenuData()];
+        $data = $this->menuData->getMegamenuData();
 
         $this->exportWriter->writeProductFile(
             $data,
