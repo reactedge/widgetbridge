@@ -13,7 +13,7 @@ class StaticRenderer
         private ActivityInterface $activity,
         private SiteViewModeReader $siteViewModeReader,
         private SsrAssetReader $ssrAssetReader,
-        private SerializerInterface   $serializer,
+        private SerializerInterface   $serializer
     ) {
     }
 
@@ -22,36 +22,51 @@ class StaticRenderer
         Contract $contract,
         string $output
     ): array {
+        $ssrRequest = $this->activity->startChildOperation(
+            $operation,
+            'ssr.static.request',
+            [
+                'widget.id' => $contract->getId(),
+                'contract.widget' => $contract->getWidget(),
+                'contract.file' => $contract->getContractFile(),
+            ]
+        );
+
         $css = $contract->getSsrCss();
         $ssr =  $this->ssrAssetReader->getSsr(
             $contract->getId(),
             $output,
             $this->siteViewModeReader->getViewPort(),
+            $ssrRequest
         );
 
-        if ($ssr === '')
+        if ($ssr === '') {
+            $this->activity->endOperation(
+                $ssrRequest,
+                [
+                    'widget.id' => $contract->getId(),
+                    'error' => 'ssr empty'
+                ]
+            );
             return [];
+        }
 
         $ssrData = $this->serializer->unserialize($ssr);
 
-        $html = $css . $ssrData['html']?? '';
-        $bootstrap = $ssrData['bootstrap']?? '';
+        $html = $css . ($ssrData['html'] ?? '');
+        $bootstrap = $ssrData['bootstrap'] ?? '';
 
         $this->activity->addEvent(
-            $operation,
+            $ssrRequest,
             'SSR Static Render Completed',
             [
-                'css.length' => strlen($css),
-                'ssr.length' => strlen($html)
+                'css.length' => strlen($contract->getSsrCss()),
+                'ssr.length' => strlen($ssr),
+                'html.length' => strlen($html)
             ]
         );
-
         $this->activity->endOperation(
-            $operation,
-            [
-                'html.hash' => md5($html),
-                'snapshot.id' => $operation->getId(),
-            ]
+            $ssrRequest
         );
 
         return [

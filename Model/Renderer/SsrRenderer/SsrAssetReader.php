@@ -7,6 +7,8 @@ use Magento\Framework\App\CacheInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem\Driver\File as FileDriver;
 use Magento\Store\Model\StoreManagerInterface;
+use ReactEdge\WidgetBridge\Api\ActivityInterface;
+use ReactEdge\WidgetBridge\Api\OperationInterface;
 use ReactEdge\WidgetBridge\Model\Cache;
 
 class SsrAssetReader
@@ -16,12 +18,22 @@ class SsrAssetReader
     public function __construct(
         private StoreManagerInterface $storeManager,
         private FileDriver            $fileDriver,
-        private CacheInterface $cache
+        private CacheInterface $cache,
+        private ActivityInterface $activity,
+        private SsrSnapshotStorage $snapshotStorage
     ) {
     }
 
-    public function getSsr(string $widget, string $output, string $variant): string
+    public function getSsr(string $widget, string $output, string $variant, OperationInterface $operation): string
     {
+        $ssrReading = $this->activity->startChildOperation(
+            $operation,
+            'ssr.reading.asset',
+            [
+                'widget.id' => $widget
+            ]
+        );
+
         $relativePath = sprintf(
             'ssr/%s/%s',
             $widget,
@@ -31,17 +43,55 @@ class SsrAssetReader
         $cached = $this->loadCache($relativePath);
 
         if ($cached !== null) {
+            $this->activity->endOperation(
+                $ssrReading,
+                [
+                    'success' => 'File read from cache',
+                    'relativePath' => $relativePath
+                ]
+            );
             return $cached;
         }
 
         try {
             $contents = $this->readSsrAssetContent($relativePath);
         } catch (\Throwable $exception) {
-            // logger if available
+            $this->activity->endOperation(
+                $ssrReading,
+                [
+                    'error' => 'File not found',
+                    'relativePath' => $relativePath,
+                    'message' => $exception->getMessage()
+                ]
+            );
             return '';
         }
 
         $this->saveCache($relativePath, $contents);
+
+        $this->snapshotStorage->save(
+            $ssrReading->getId(),
+            $contents
+        );
+
+        $this->activity->addEvent(
+            $ssrReading,
+            'SSR Static Render Completed',
+            [
+                'ssr.length' => strlen($contents),
+                'ssr.hash' => md5($contents),
+                'snapshot.saved' => $ssrReading->getId() . '.html',
+            ]
+        );
+
+        $this->activity->endOperation(
+            $ssrReading,
+            [
+                'success' => 'File successfully read & cached',
+                'relativePath' => $relativePath,
+                'snapshot.id' => $ssrReading->getId(),
+            ]
+        );
 
         return $contents;
     }

@@ -69,11 +69,19 @@ class SsrRenderer
         if ($contract->hasStaticSsr(
             $this->siteViewModeReader->getViewPort()
         )) {
-            return $this->staticRenderer->render(
+            $staticSSr = $this->staticRenderer->render(
                 $render,
                 $contract,
                 (strpos($widgetId, 'productgallery')!== false)? sprintf('output-%s.json', $this->context->getEntityId()): 'output.json'
             );
+
+            $this->activity->endOperation(
+                $render,
+                [
+                    'Static SSR completed' => null
+                ]
+            );
+            return $staticSSr;
         }
 
         try {

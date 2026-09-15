@@ -71,7 +71,6 @@ class ContractValidator
             [
                 'widget' => $contract->getWidget(),
                 'strategy' => $contract->getRenderingStrategy(),
-                'ssr' => $contract->getSsrHtml(),
                 'css' => $contract->getSsrCss()
             ]
         );
