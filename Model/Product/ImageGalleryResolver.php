@@ -26,10 +26,7 @@ class ImageGalleryResolver
             ];
         }
 
-        return [
-            'key' => $product->getSku(),
-            'images' => $images,
-        ];
+        return $images;
     }
 
 

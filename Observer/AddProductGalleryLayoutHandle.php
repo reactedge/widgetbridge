@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace ReactEdge\WidgetBridge\Observer;
+use Magento\Framework\App\RequestInterface;
 
 use Magento\Framework\Event\Observer;
 use Magento\Store\Model\ScopeInterface;
@@ -13,13 +14,18 @@ class AddProductGalleryLayoutHandle implements \Magento\Framework\Event\Observer
      * @param Config $config
      */
     public function __construct(
-        private Config $config
+        private Config $config,
+        private readonly RequestInterface $request
     ) {
     }
 
     public function execute(Observer $observer): void
     {
         if (!$this->config->isEnabled(Config::WIDGET_PRODUCT_GALLERY)) {
+            return;
+        }
+
+        if ($this->request->getFullActionName() !== 'catalog_product_view') {
             return;
         }
 

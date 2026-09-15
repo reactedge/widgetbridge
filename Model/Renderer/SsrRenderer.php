@@ -15,6 +15,11 @@ use ReactEdge\WidgetBridge\Model\Renderer\SsrRenderer\StaticRenderer;
 
 class SsrRenderer
 {
+    public const DEFAULT_SSR = [
+        'bootstrap' => '',
+        'html' => '',
+    ];
+
     public function __construct(
         private Config             $config,
         private StaticRenderer $staticRenderer,
@@ -27,13 +32,13 @@ class SsrRenderer
     ) {
     }
 
-    public function render(string $widgetId): string
+    public function render(string $widgetId): array
     {
         $render = $this->logSsrRender($widgetId);
 
         if (!$this->config->getWidgetsSSREngineEnabled()) {
             $this->logSsrRenderFailed($render, $widgetId);
-            return '';
+            return self::DEFAULT_SSR;
         }
 
         $contract = $this->contractValidator->validate(
@@ -48,7 +53,7 @@ class SsrRenderer
                     'contract' => null
                 ]
             );
-            return '';
+            return self::DEFAULT_SSR;
         }
 
         if ($contract->getRenderingStrategy() === 'disabled') {
@@ -58,7 +63,7 @@ class SsrRenderer
                     'strategy' => 'disabled'
                 ]
             );
-            return '';
+            return self::DEFAULT_SSR;
         }
 
         if ($contract->hasStaticSsr(
@@ -67,7 +72,7 @@ class SsrRenderer
             return $this->staticRenderer->render(
                 $render,
                 $contract,
-                ($widgetId=== 'productgallery')? sprintf('output-%s.html', $this->context->getEntityId()): 'output.html'
+                (strpos($widgetId, 'productgallery')!== false)? sprintf('output-%s.json', $this->context->getEntityId()): 'output.json'
             );
         }
 
@@ -98,8 +103,19 @@ class SsrRenderer
                 ]
             );
 
+            return self::DEFAULT_SSR;
+        }
+    }
+
+    public function renderData(string $widgetId): string
+    {
+        if (!$this->config->getWidgetsSSREngineEnabled()) {
             return '';
         }
+
+        return $this->staticRenderer->renderData(
+            ($widgetId=== 'productgallery')? sprintf('output-%s.html', $this->context->getEntityId()): 'output.html'
+        );
     }
 
     private function logSsrRender(
