@@ -60,7 +60,7 @@ bin/magento config:set reactedge/widgets_ssr/base_url https://ssr-origin.reacted
 ```bash
 bin/magento config:set reactedge/observability/enabled 1
 bin/magento config:set reactedge/observability/service_name reactedge-mageos-dev
-bin/magento config:set reactedge/observability/collector_endpoint https://otel.reactedge.net/v1/traces
+bin/magento config:set reactedge/observability/collector_endpoint https://otel.reactedge.net
 ```
 
 ## Philosophy
