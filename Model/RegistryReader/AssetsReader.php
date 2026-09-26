@@ -40,20 +40,31 @@ class AssetsReader
         );
 
         try {
-            $contents = $this->getJsonFileContent(
+            $registry = $this->getJsonFileContent(
                 $path
             );
         } catch (\Throwable $exception) {
             $this->logger->error("Error reading registry " . $exception->getMessage());
-            $contents = [];
+            $registry = [];
         }
+
+        $activeRegistry = [];
+
+        foreach ($registry as $id => $config) {
+            if (!$this->hasManifest($id)) {
+                continue;
+            }
+
+            $activeRegistry[$id] = $config;
+        }
+
 
         $this->assetsCacheHandler->saveCache(
             $relativePath,
-            $contents
+            $activeRegistry
         );
 
-        return $contents;
+        return $activeRegistry;
     }
 
     public function getContract(
@@ -70,14 +81,10 @@ class AssetsReader
             return $cached;
         }
 
-        $storeCode = $this->storeManager
-            ->getStore()
-            ->getCode();
-
         $path = sprintf(
             '%s/%s/%s',
             $this->getReactEdgeRoot(),
-            $storeCode,
+            $this->getStoreCode(),
             $relativePath
         );
 
@@ -164,5 +171,24 @@ class AssetsReader
         }
 
         return $this->fileDriver->fileGetContents($fullPath);
+    }
+
+    private function hasManifest(string $widgetId): bool
+    {
+        $path = sprintf(
+            '%s/%s/manifests/%s.json',
+            $this->getReactEdgeRoot(),
+            $this->getStoreCode(),
+            $widgetId
+        );
+
+        return is_file($path);
+    }
+
+    private function getStoreCode()
+    {
+        return $this->storeManager
+            ->getStore()
+            ->getCode();
     }
 }

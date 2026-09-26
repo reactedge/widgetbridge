@@ -10,8 +10,6 @@ use ReactEdge\WidgetBridge\Model\RegistryReader\WidgetAssetResolver;
 
 class RegistryReader
 {
-    private $activeInstances = null;
-
     public  function __construct(
         private MenuData        $menuData,
         private AssetsReader    $assetsReader,
@@ -28,7 +26,7 @@ class RegistryReader
         $registry = [];
 
         try {
-            $widgets = $this->getActiveWidgetInstances();
+            $widgets = $this->assetsReader->getRegistry();
 
             foreach ($widgets as $widgetInstanceId => $widgetInstanceData) {
                 try {
@@ -55,7 +53,7 @@ class RegistryReader
     public function getWidgetContract(string $widgetId): array
     {
         try {
-            $widgets = $this->getActiveWidgetInstances();
+            $widgets = $this->assetsReader->getRegistry();
             if (!isset($widgets[$widgetId])) {
                 return [];
             }
@@ -91,7 +89,6 @@ class RegistryReader
 
     private function addDynamicWidgetData(array $data): array
     {
-
         if (isset($data['id']) && $data['id'] === MenuData::MENU_ID) {
             $menuData = $this->menuData->getMegamenuData();
             $data['contract']['data'] = $menuData;
@@ -104,7 +101,7 @@ class RegistryReader
     {
         $activeWidgets = [];
 
-        $widgets = $this->getActiveWidgetInstances();
+        $widgets = $this->assetsReader->getRegistry();
 
         foreach ($widgets as $widgetInstanceId => $widgetInstance) {
             if (isset($widgetInstance['widget'])) continue;
@@ -114,32 +111,4 @@ class RegistryReader
 
         return $activeWidgets;
     }
-
-    private function getActiveWidgetInstances(): array
-    {
-        if ($this->activeInstances === null) {
-            $this->activeInstances = [];
-
-            $widgets = $this->assetsReader->getRegistry();
-
-            if (!$widgets) {
-                $this->logger->error('ReactEdge manifest widgets.json not found');
-                return [];
-            }
-
-            foreach ($widgets as $widgetInstanceId => $widgetInstance) {
-                try {
-                    if ($widgetInstance['active'] ?? false) {
-                        $this->activeInstances[$widgetInstanceId] = $widgetInstance;
-                    }
-
-                } catch (\Exception $e) {
-                    $this->logger->error("Error loading manifest $widgetInstanceId: " . $e->getMessage());
-                }
-            }
-        }
-
-        return $this->activeInstances;
-    }
-
 }
