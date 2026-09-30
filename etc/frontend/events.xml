@@ -14,4 +14,18 @@
         />
     </event>
 
+    <event name="layout_generate_blocks_before">
+        <observer
+                name="reactedge_start_page_trace"
+                instance="ReactEdge\WidgetBridge\Observer\StartPageTrace"
+        />
+    </event>
+
+    <event name="controller_front_send_response_before">
+        <observer
+                name="reactedge_end_page_trace"
+                instance="ReactEdge\WidgetBridge\Observer\EndPageTrace"
+        />
+    </event>
+
 </config>
