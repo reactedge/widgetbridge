@@ -6,7 +6,6 @@ namespace ReactEdge\WidgetBridge\DataProvider\Product\LayeredNavigation;
 use Magento\Catalog\Model\Product;
 use Magento\Eav\Model\Config;
 use Magento\Framework\Api\Search\AggregationInterface;
-use Magento\Swatches\Block\LayeredNavigation\RenderLayered;
 use Magento\Swatches\Helper\Data;
 use Psr\Log\LoggerInterface;
 use Magento\CatalogGraphQl\DataProvider\Product\LayeredNavigation\LayerBuilder;
@@ -18,20 +17,17 @@ class DataProviderAggregationPlugin extends LayerBuilder implements LayerBuilder
     protected $_logger;
     protected $eavConfig;
     private $swatchHelper;
-    private $renderLayered;
 
     public function __construct(
         array $builders,
         LoggerInterface $logger,
         Config $eavConfig,
-        Data $swatchHelper,
-        RenderLayered $renderLayered
+        Data $swatchHelper
     ) {
         $this->builders = $builders;
         $this->_logger = $logger;
         $this->eavConfig = $eavConfig;
         $this->swatchHelper = $swatchHelper;
-        $this->renderLayered = $renderLayered;
     }
 
     public function build(

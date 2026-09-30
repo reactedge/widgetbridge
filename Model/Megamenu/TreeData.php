@@ -3,26 +3,19 @@ declare(strict_types=1);
 
 namespace ReactEdge\WidgetBridge\Model\Megamenu;
 
-use Magento\Catalog\Api\CategoryRepositoryInterface;
-use Magento\Catalog\Helper\Category;
 use Magento\Catalog\Model\ResourceModel\Category\StateDependentCollectionFactory;
 use Magento\Framework\Data\Collection;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Framework\UrlInterface;
 
 class TreeData
 {
 
-    private Category $catalogCategory;
     private StateDependentCollectionFactory $categoryCollectionFactory;
 
     public function __construct(
         private StoreManagerInterface       $storeManager,
-        private CategoryRepositoryInterface $categoryRepository,
-        Category $catalogCategory,
         StateDependentCollectionFactory $categoryCollectionFactory
     ) {
-        $this->catalogCategory = $catalogCategory;
         $this->categoryCollectionFactory = $categoryCollectionFactory;
     }
 
