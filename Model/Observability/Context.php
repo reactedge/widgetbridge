@@ -10,8 +10,8 @@ use ReactEdge\WidgetBridge\Model\Config\ProductReader;
 final readonly class Context
 {
     public function __construct(
-        private CategoryReader        $categoryReader,
-        private ProductReader         $productReader
+        private CategoryReader $categoryReader,
+        private ProductReader $productReader
     ) {
     }
 
@@ -19,19 +19,21 @@ final readonly class Context
     {
         if ($this->getSku() !== null) {
             return $this->getSku();
-        } elseif ($this->getCategory() !== null) {
-            return $this->getCategory();
-        } else {
-            return 'page';
         }
+
+        if ($this->getCategory() !== null) {
+            return $this->getCategory();
+        }
+
+        return 'page';
     }
 
-    private function getSku(): ?string
+    public function getSku(): ?string
     {
         return $this->productReader->getCurrentProductSku();
     }
 
-    private function getCategory(): ?string
+    public function getCategory(): ?string
     {
         return $this->categoryReader->getCurrentCategoryUrlKey();
     }

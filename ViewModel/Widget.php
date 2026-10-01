@@ -9,6 +9,7 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 use ReactEdge\WidgetBridge\Model\Config;
 use ReactEdge\WidgetBridge\Model\Config\ProductReader;
 use ReactEdge\WidgetBridge\Model\Config\Runtime as RuntimeConfig;
+use ReactEdge\WidgetBridge\Model\Observability\PageTrace;
 use ReactEdge\WidgetBridge\Model\RegistryReader;
 use ReactEdge\WidgetBridge\Model\Renderer\SsrRenderer;
 
@@ -17,13 +18,15 @@ class Widget implements ArgumentInterface
     private $ssrData = null;
 
     public function __construct(
-        private Config                $config,
-        private RegistryReader        $registryReader,
-        private SsrRenderer           $ssrRenderer,
-        private RuntimeConfig         $runtimeConfig,
-        private SerializerInterface   $serializer,
+        private Config $config,
+        private RegistryReader $registryReader,
+        private SsrRenderer $ssrRenderer,
+        private RuntimeConfig $runtimeConfig,
+        private SerializerInterface $serializer,
         private ProductReader $productReader,
-    ) {}
+        private PageTrace $pageTrace
+    ) {
+    }
 
     public function isEnabled(mixed $widgetId): bool
     {
@@ -55,6 +58,11 @@ class Widget implements ArgumentInterface
     {
         $data = $this->runtimeConfig->getRuntimeConfig();
         return $this->serializer->serialize($data);
+    }
+
+    public function getObservabilityContext(): string
+    {
+        return $this->serializer->serialize($this->pageTrace->getBrowserContext());
     }
 
     private function getWidgetSSR(string $widgetId): array
