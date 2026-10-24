@@ -4,7 +4,8 @@ The fixture contains FAQs for two MageOS sample categories and a size guide for
 a planned PDP widget. The category FAQ and featured exports use category data
 from Magento.
 
-After enabling WidgetBridge and running `bin/magento setup:upgrade`:
+After enabling WidgetBridge and running `bin/magento setup:upgrade`, the
+category editor shows the FAQ JSON textarea and featured toggle:
 
 1. In each category editor, paste the matching `faqs` object from
    `categories.json` into **ReactEdge Category FAQs (JSON)**.
