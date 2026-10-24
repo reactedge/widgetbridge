@@ -11,4 +11,6 @@ agent for integrating ReactEdge widgets into WidgetBridge.
 The widget specialist's default checklist is one Magento admin configuration
 group per widget, one frontend template per widget, a layout entry when the
 widget needs placement, and SSR markup/bootstrap only when that ReactEdge widget
-supports the WidgetBridge SSR contract.
+supports the WidgetBridge SSR contract. The demo integrations use the
+`sizeguide`, `categoryfaq`, and `categoryfeatured` groups, each with its own
+enable setting under the `reactedge` section.

@@ -23,7 +23,7 @@
                    sortOrder="20"
                    showInDefault="1"
                    showInWebsite="1"
-                   showInStore="20">
+                   showInStore="1">
 
                 <label>USP Widget</label>
 
@@ -73,11 +73,68 @@
             </group>
 
             <!-- ===================== -->
+            <!-- SIZE GUIDE           -->
+            <!-- ===================== -->
+            <group id="sizeguide"
+                   translate="label"
+                   sortOrder="110"
+                   showInDefault="1"
+                   showInWebsite="1"
+                   showInStore="1">
+
+                <label>Size Guide Widget</label>
+
+                <field id="enabled" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Size Guide</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+            <!-- ===================== -->
+            <!-- CATEGORY FAQ         -->
+            <!-- ===================== -->
+            <group id="categoryfaq"
+                   translate="label"
+                   sortOrder="120"
+                   showInDefault="1"
+                   showInWebsite="1"
+                   showInStore="1">
+
+                <label>Category FAQ Widget</label>
+
+                <field id="enabled" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Category FAQ</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+            <!-- ===================== -->
+            <!-- CATEGORY FEATURED    -->
+            <!-- ===================== -->
+            <group id="categoryfeatured"
+                   translate="label"
+                   sortOrder="130"
+                   showInDefault="1"
+                   showInWebsite="1"
+                   showInStore="1">
+
+                <label>Featured Categories Widget</label>
+
+                <field id="enabled" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Featured Categories</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+            <!-- ===================== -->
             <!-- INTENT DISCOVERY      -->
             <!-- ===================== -->
             <group id="intentdiscovery"
                    translate="label"
-                   sortOrder="100"
+                   sortOrder="105"
                    showInDefault="1"
                    showInWebsite="1"
                    showInStore="1">
