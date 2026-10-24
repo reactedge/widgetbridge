@@ -1,0 +1,45 @@
+{
+  "categories": [
+    {
+      "name": "Women's Trail Clothing",
+      "url_key": "womens-trail-clothing",
+      "description": "Technical layers for hiking and everyday outdoor use.",
+      "faqs": [
+        {
+          "question": "How should I layer for changeable weather?",
+          "answer": "Start with a breathable base layer, add an insulating mid-layer, and carry a waterproof shell for wind or rain."
+        },
+        {
+          "question": "How do I choose the right size?",
+          "answer": "Use the size guide on each product page and compare the garment measurements with a similar layer you already own."
+        },
+        {
+          "question": "Can I return an item that does not fit?",
+          "answer": "Unworn items can be returned within 30 days, with labels attached."
+        }
+      ],
+      "featured_product_skus": [
+        "RE-TRAIL-FLEECE",
+        "RE-TRAIL-SHELL"
+      ]
+    },
+    {
+      "name": "Women's Waterproof Jackets",
+      "url_key": "womens-waterproof-jackets",
+      "description": "Lightweight waterproof jackets for wet and windy days.",
+      "faqs": [
+        {
+          "question": "Are these jackets seam sealed?",
+          "answer": "The Trail Shell has fully taped seams to help keep rain from entering through the stitching."
+        },
+        {
+          "question": "Can I wear a fleece underneath?",
+          "answer": "Yes. Choose your usual size for a base layer or size up if you prefer room for a thick mid-layer."
+        }
+      ],
+      "featured_product_skus": [
+        "RE-TRAIL-SHELL"
+      ]
+    }
+  ]
+}
