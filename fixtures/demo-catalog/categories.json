@@ -2,6 +2,7 @@
   "categories": [
     {
       "url_key": "women",
+      "is_featured": true,
       "faqs": {
         "items": [
           {
@@ -17,6 +18,7 @@
     },
     {
       "url_key": "tops-women",
+      "is_featured": true,
       "faqs": {
         "items": [
           {

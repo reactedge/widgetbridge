@@ -35,6 +35,10 @@
                       xsi:type="object">
                     ReactEdge\WidgetBridge\Command\GenerateCategoryFaqData
                 </item>
+                <item name="reactedge_category_featured_generate"
+                      xsi:type="object">
+                    ReactEdge\WidgetBridge\Command\GenerateCategoryFeaturedData
+                </item>
                 <item name="reactedge_megamenu_generate"
                       xsi:type="object">
                     ReactEdge\WidgetBridge\Command\GenerateMegamenuData

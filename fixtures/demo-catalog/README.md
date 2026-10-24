@@ -1,18 +1,21 @@
 # Demo catalog fixture
 
-The fixture contains FAQ content for two MageOS sample categories and a separate
-product size guide for the planned PDP size guide widget. The category FAQ
-generator exports only the category FAQ values. The category FAQs are entered
-into the `ReactEdge Category FAQs (JSON)` category attribute created by
-WidgetBridge. In the category editor, paste each matching `faqs` object from
-`categories.json` into that category's field.
+The fixture contains FAQs for two MageOS sample categories and a size guide for
+a planned PDP widget. The category FAQ and featured exports use category data
+from Magento.
 
-From the Magento root, generate the Category FAQ export with:
+After enabling WidgetBridge and running `bin/magento setup:upgrade`:
 
-```bash
-bin/magento reactedge:category-faq:generate
-```
+1. In each category editor, paste the matching `faqs` object from
+   `categories.json` into **ReactEdge Category FAQs (JSON)**.
+2. Set **ReactEdge Featured Category** to **Yes** for categories to include in
+   the featured export. The category must also have its standard Magento image.
+3. Generate the FAQ export with `bin/magento reactedge:category-faq:generate`.
+4. Generate the featured category export with
+   `bin/magento reactedge:category-featured:generate`.
 
-The command writes an index to `var/export/categoryfaq/categories.json` and one
-JSON file per category to `var/export/categoryfaq/categories/`. Active categories
-with FAQ data are included. Featured category data will be added separately.
+The commands write indexes under `var/export/categoryfaq/` and
+`var/export/categoryfeatured/`. The featured export includes each category name
+and a thumbnail generated from its Magento category image. Thumbnails are
+constrained to 100 by 100 pixels, preserve their aspect ratio, and are written
+under `var/export/categoryfeatured/thumbnails/`.
