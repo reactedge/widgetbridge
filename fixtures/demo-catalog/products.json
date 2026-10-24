@@ -1,23 +1,9 @@
 {
   "products": [
     {
-      "sku": "RE-TRAIL-FLEECE",
-      "name": "Women's Trail Fleece",
-      "url_key": "womens-trail-fleece",
-      "price": 58.0,
-      "category_url_keys": [
-        "womens-trail-clothing"
-      ]
-    },
-    {
       "sku": "RE-TRAIL-SHELL",
       "name": "Women's Trail Waterproof Shell",
       "url_key": "womens-trail-waterproof-shell",
-      "price": 110.0,
-      "category_url_keys": [
-        "womens-trail-clothing",
-        "womens-waterproof-jackets"
-      ],
       "size_guide": {
         "unit": "cm",
         "how_to_measure": "Measure around the fullest part of the chest while wearing the layer you plan to use underneath.",

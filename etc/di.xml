@@ -31,6 +31,10 @@
                       xsi:type="object">
                     ReactEdge\WidgetBridge\Command\GenerateProductWithImageData
                 </item>
+                <item name="reactedge_category_faq_generate"
+                      xsi:type="object">
+                    ReactEdge\WidgetBridge\Command\GenerateCategoryFaqData
+                </item>
                 <item name="reactedge_megamenu_generate"
                       xsi:type="object">
                     ReactEdge\WidgetBridge\Command\GenerateMegamenuData
