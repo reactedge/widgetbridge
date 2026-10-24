@@ -14,7 +14,12 @@ conventions already used by `megamenu` and `usp`.
    `etc/adminhtml/system.xml`. At minimum, provide an enable setting for the
    widget. Put additional widget-specific settings in that same group; do not
    reuse another widget's config path. Add configuration access through the
-   existing config model when the runtime needs to read a setting.
+   existing config model when the runtime needs to read a setting. This is
+   system configuration for enabling/configuring the integration; it is
+   distinct from entity data edited on a product or category.
+   For product/category EAV fields, add the attribute and expose it in the
+   relevant Admin UI component XML (for example,
+   `view/adminhtml/ui_component/category_form.xml`).
 3. Add a dedicated frontend template, for example
    `view/frontend/templates/megamenu.phtml` or
    `view/frontend/templates/usp.phtml`. The template owns that widget's
@@ -40,6 +45,14 @@ conventions already used by `megamenu` and `usp`.
 - Layout placement: `view/frontend/layout/*.xml`
 - Shared block and view model: `Block/Widget.php`, `ViewModel/Widget.php`
 - SSR service: `Model/Renderer/SsrRenderer.php`
+
+## Scope check
+
+Some repository work prepares data for a widget without integrating a
+storefront widget. A generator, fixture, or category/product attribute alone
+does not satisfy the template, layout, asset, and rendering requirements above.
+Treat those as data groundwork and report the storefront integration as
+incomplete until the widget itself is wired into WidgetBridge.
 
 ## Completion summary
 
