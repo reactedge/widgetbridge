@@ -12,7 +12,7 @@ class StaticRenderer
     public function __construct(
         private ActivityInterface $activity,
         private SiteViewModeReader $siteViewModeReader,
-        private SsrAssetReader $ssrAssetReader,
+        private SsrOutputReader $ssrOutputReader,
         private SerializerInterface   $serializer
     ) {
     }
@@ -33,9 +33,8 @@ class StaticRenderer
         );
 
         $css = $contract->getSsrCss();
-        $ssr =  $this->ssrAssetReader->getSsr(
+        $ssr = $this->ssrOutputReader->read(
             $contract->getId(),
-            $output,
             $this->siteViewModeReader->getViewPort(),
             $ssrRequest
         );

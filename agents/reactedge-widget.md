@@ -8,9 +8,7 @@ conventions already used by `megamenu` and `usp`.
 
 ## Per-widget requirements
 
-1. Give the widget a stable ID used consistently by configuration, layout,
-   template, registry/asset lookup, and SSR contract lookup.
-2. Add an independent Magento Admin configuration group in
+1. Add an independent Magento Admin configuration group in
    `etc/adminhtml/system.xml`. At minimum, provide an enable setting for the
    widget. Put additional widget-specific settings in that same group; do not
    reuse another widget's config path. Add configuration access through the
@@ -20,6 +18,9 @@ conventions already used by `megamenu` and `usp`.
    For product/category EAV fields, add the attribute and expose it in the
    relevant Admin UI component XML (for example,
    `view/adminhtml/ui_component/category_form.xml`).
+2. Use the widget ID and data specification supplied by the ReactEdge widget
+   owner in Magento config paths, templates, and layout arguments. Do not
+   define the widget's ID, custom element, asset, or contract here.
 3. Add a dedicated frontend template, for example
    `view/frontend/templates/megamenu.phtml` or
    `view/frontend/templates/usp.phtml`. The template owns that widget's
@@ -27,15 +28,14 @@ conventions already used by `megamenu` and `usp`.
    enabled setting before emitting the widget.
 4. Add or update the appropriate layout XML when the widget needs automatic
    placement. Keep placement separate from the template.
-5. Connect the ReactEdge asset and data contract using existing WidgetBridge
-   runtime conventions. Avoid duplicating shared loader or registry behavior.
-6. Use SSR when the widget supplies a compatible WidgetBridge SSR contract.
+5. Use SSR when the widget owner supplies a compatible WidgetBridge SSR
+   contract.
    In that case, render SSR HTML and its bootstrap data in the widget's own
    template using the existing view model. Keep the custom-element/client path
    functional when SSR is globally disabled, unavailable, or returns no
    markup. If the widget has no supported SSR contract, use client rendering
    and do not make SSR a requirement for enabling the widget.
-7. Document any required admin configuration and how the widget is placed and
+6. Document any required admin configuration and how the widget is placed and
    rendered.
 
 ## Admin configuration for the demo widgets
@@ -66,29 +66,26 @@ to them.
 
 Some repository work prepares data for a widget without integrating a
 storefront widget. A generator, fixture, or category/product attribute alone
-does not satisfy the template, layout, asset, and rendering requirements above.
+does not satisfy the template, layout, and rendering requirements above.
 Treat those as data groundwork and report the storefront integration as
 incomplete until the widget itself is wired into WidgetBridge.
 
-## Ready-to-integrate gate
+## Magento integration gate
 
-Do not mark a widget ready based on its Admin toggle, EAV field, fixture, or
-export command alone. Confirm all of the following against the actual widget
-source and published WidgetBridge registry:
+Do not mark the Magento integration ready based on its Admin toggle, EAV field,
+fixture, or export command alone. Use the supplied widget ID and data
+specification, then confirm the Magento responsibilities:
 
-- The widget ID, custom-element name, manifest, contract schema, and published
-  asset agree.
-- The Magento data source maps to the contract's expected data shape and the
-  widget can resolve the current product/category context.
+- Magento's data source maps to the supplied data specification and provides
+  the required product/category context.
 - A dedicated template and the correct Magento layout handle place the widget
-  on its intended page, and the template respects the widget's enable setting.
-- SSR is used only when the published contract declares a supported SSR
-  strategy; otherwise verify the client-rendered path.
-- A MageOS/Magento page check confirms the widget mounts with real sample data.
+  on its intended page, and the template respects its enable setting.
+- SSR markup is added only when the widget owner supplies a supported SSR
+  contract; otherwise the template provides the client-rendered path.
 
-If the widget source, manifest, or contract is unavailable, report the widget
-as blocked/incomplete and name the missing artifact. Do not guess the data
-shape or claim end-to-end readiness.
+If a required widget ID, data specification, or SSR capability has not been
+provided, report that dependency to the platform/widget owner. Do not guess the
+data shape or claim the Magento integration is complete.
 
 ## Completion summary
 
