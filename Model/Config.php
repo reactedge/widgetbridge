@@ -38,6 +38,9 @@ class Config
     public const WIDGET_MEGAMENU = 'megamenu';
     public const WIDGET_MINICART = 'minicart';
     public const WIDGET_INTENTDISCOVERY = 'intentdiscovery';
+    public const WIDGET_SIZE_GUIDE = 'sizeguide';
+    public const WIDGET_CATEGORY_FAQ = 'categoryfaq';
+    public const WIDGET_CATEGORY_FEATURED = 'categoryfeatured';
     private const ALLOWED_WIDGETS = [
         self::WIDGET_USP,
         self::WIDGET_BANNER,
@@ -48,6 +51,9 @@ class Config
         self::WIDGET_MEGAMENU,
         self::WIDGET_MINICART,
         self::WIDGET_INTENTDISCOVERY,
+        self::WIDGET_SIZE_GUIDE,
+        self::WIDGET_CATEGORY_FAQ,
+        self::WIDGET_CATEGORY_FEATURED,
     ];
 
     public function __construct(

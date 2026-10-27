@@ -12,15 +12,14 @@ class StaticRenderer
     public function __construct(
         private ActivityInterface $activity,
         private SiteViewModeReader $siteViewModeReader,
-        private SsrAssetReader $ssrAssetReader,
+        private SsrOutputReader $ssrOutputReader,
         private SerializerInterface   $serializer
     ) {
     }
 
     public function render(
         OperationInterface $operation,
-        Contract $contract,
-        string $output
+        Contract $contract
     ): array {
         $ssrRequest = $this->activity->startChildOperation(
             $operation,
@@ -33,9 +32,8 @@ class StaticRenderer
         );
 
         $css = $contract->getSsrCss();
-        $ssr =  $this->ssrAssetReader->getSsr(
+        $ssr = $this->ssrOutputReader->read(
             $contract->getId(),
-            $output,
             $this->siteViewModeReader->getViewPort(),
             $ssrRequest
         );

@@ -1,0 +1,36 @@
+{
+  "categories": [
+    {
+      "url_key": "women",
+      "is_featured": true,
+      "faqs": {
+        "items": [
+          {
+            "question": "How do I choose the right size?",
+            "answer": "Use the size guide on each product page and compare the measurements with a similar garment you already own."
+          },
+          {
+            "question": "Can I return an item that does not fit?",
+            "answer": "Unworn items can be returned within 30 days, with labels attached."
+          }
+        ]
+      }
+    },
+    {
+      "url_key": "tops-women",
+      "is_featured": true,
+      "faqs": {
+        "items": [
+          {
+            "question": "How should I layer a top for changeable weather?",
+            "answer": "Start with a breathable base layer, add an insulating mid-layer, and carry a shell for wind or rain."
+          },
+          {
+            "question": "Can I wear a fleece underneath a waterproof jacket?",
+            "answer": "Yes. Choose your usual size for a base layer or size up if you prefer room for a thick mid-layer."
+          }
+        ]
+      }
+    }
+  ]
+}

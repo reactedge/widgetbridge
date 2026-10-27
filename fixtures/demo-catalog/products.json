@@ -1,0 +1,27 @@
+{
+  "products": [
+    {
+      "sku": "RE-TRAIL-SHELL",
+      "name": "Women's Trail Waterproof Shell",
+      "url_key": "womens-trail-waterproof-shell",
+      "size_guide": {
+        "unit": "cm",
+        "how_to_measure": "Measure around the fullest part of the chest while wearing the layer you plan to use underneath.",
+        "columns": [
+          "Size",
+          "Chest",
+          "Waist",
+          "Body length",
+          "Sleeve"
+        ],
+        "rows": [
+          ["XS", 82, 66, 63, 59],
+          ["S", 88, 72, 65, 60],
+          ["M", 94, 78, 67, 61],
+          ["L", 102, 86, 69, 62],
+          ["XL", 110, 94, 71, 63]
+        ]
+      }
+    }
+  ]
+}
