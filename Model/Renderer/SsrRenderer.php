@@ -71,8 +71,7 @@ class SsrRenderer
         )) {
             $staticSSr = $this->staticRenderer->render(
                 $render,
-                $contract,
-                (strpos($widgetId, 'productgallery')!== false)? sprintf('output-%s.json', $this->context->getEntityId()): 'output.json'
+                $contract
             );
 
             $this->activity->endOperation(

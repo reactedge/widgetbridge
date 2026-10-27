@@ -1,0 +1,20 @@
+<?php
+/** @var \ReactEdge\WidgetBridge\Block\Widget $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \ReactEdge\WidgetBridge\ViewModel\Widget $viewModel */
+
+$viewModel = $block->getViewModel();
+$widgetId = $block->getData('widget_id');
+
+if (!$viewModel->isEnabled($widgetId)) {
+    return;
+}
+?>
+
+<sizeguide-widget data-load="eager">
+    <?= $viewModel->getWidgetSSRHtml($widgetId); ?>
+</sizeguide-widget>
+
+<script type="application/json" data-reactedge-bootstrap>
+    <?= $viewModel->getWidgetSSRData($widgetId); ?>
+</script>
